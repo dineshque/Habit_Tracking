@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/main.css">
+    <title></title>
+  </head>
+
+  <body>
+    <div class="row">
+      <div class="col-sm-3 d-flex justify-content-center">
+        <span class="align-self-center"><img src='/static/userimg' width="40px" height="40px" />{{tracker.parent.username}}</span>
+      </div>
+      <div class="col-sm-6 d-flex justify-content-center">
+        <h1>Tracker name: {{tracker.name}}</h1>
+      </div>
+      <div class="col-sm-3 d-flex justify-content-center">
+        <h3><a href="/main">Home</a>|<a href="/logout">Logout</a></h3>
+      </div>
+    </div>
+    <br><br>
+    <div class="row">
+      <h2 align='center'><u>Trendline:</u></h2>
+      <div class="col-sm-8 col-xl-7 d-flex justify-content-center">
+        <img class="img-fluid" src="{{chart}}" alt="No data for specified duration">
+      </div>
+      <div class="col-sm-4 col-xl-4 d-flex align-self-center">
+        <form class="form" action="/tracker/{{tracker.tracker_id}}" method="post">
+          <select class="time" name="period">
+            <option value="Today">Today</option>
+            <option value="1Month">This Month</option>
+            <option value="All">All time</option>
+            <option value="Custom">Custom range</option>
+          </select><span>-----------------</span>
+          <button type="submit" name="button">GO</button><br><br>
+          <label for='customdatetimel'>For custom range first select 'Custom range' ^</label>
+          <label for='customdatetimeh'>then enter start and end datetime:-</label><br>
+          <input name='customdatetimel' type="datetime-local"><input name='customdatetimeh' type='datetime-local'>
+        </form>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-8 offset-2">
+        <div class="h4 justify-content-center">Log Entries</div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>S.no</th>
+              <th>Timestamp</th>
+              <th>Value</th>
+              <th>Note</th>
+              <th>Actions</th>
+            </tr>
+            {% for l in tracker.logs %}
+            <tr>
+              <td>{{loop.index}}</td>
+              <td>{{l.log_datetime.strftime('(%d/%b/%Y, %H:%M:%S)')}}</td>
+              <td>{{l.log_value}}</td>
+              <td>{{l.note}}</td>
+              <td><button type="button" name="button"><a href="/{{l.log_id}}/log/update">Edit</a></button>
+                <button type="button" name="button"><a href="/{{l.log_id}}/log/delete">Delete</a></button>
+              </td>
+            </tr>
+            {% endfor %}
+          </thead>
+        </table>
+        <div class='text-center'><button class="button h5" type="button"><a href="/{{tracker.tracker_id}}/log/add">Add Log</a></button>
+        </div>
+      </div>
+    </div>
+
+  </body>
+
+</html>

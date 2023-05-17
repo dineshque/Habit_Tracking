@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/main.css">
+    <title></title>
+  </head>
+
+  <body>
+    <div class="row">
+      <div class="col-2 d-flex justify-content-center">
+        <span class="align-self-center"><img src='/static/userimg' width="40px" height="40px" />{{user.username}}</span>
+      </div>
+      <div class="col-8 text-center">
+        <h1>Update Tracker:{{tracker.name}}</h1><br><br>
+      </div>
+      <div class="col-2 text-center">
+        <a href="/" class="h4 logout">Home_</a>|
+        <a href="/logout" class="h4 logout">_Logout</a>
+      </div>
+    </div>
+    <div class="row update_tracker">
+      <div class="col-8 offset-2 h5">
+        <form class="tracker_form" action="/tracker/{{tracker.tracker_id}}/update" method="post">
+          <h2 align="center">Tracker_id: {{tracker.tracker_id}}</h2><br>
+          <div class="mb-3 row">
+            <label class="col-6" for="name">Enter new name of tracker:</label><input class="col-6" type="text" name="name" value="{{tracker.name}}" required>
+          </div>
+          <div class="mb-3 row">
+            <label class="col-6" for="desc">Enter new description of tracker:</label><input class="col-6" type="text" value="{{tracker.desc}}" name="desc">
+          </div>
+          <div class="mb-3 row">
+            <label class="col-6" for="type">Select new tracker type:</label><select class="col-6" name="type">
+              <option value="Integer" {% if tracker.type=="Integer" %}selected{% endif %}>Integer</option>
+              <option value="Numeric" {% if tracker.type=="Numeric" %}selected{% endif %}>Numeric(Float)</option>
+              <option value="Multiple-choice" {% if tracker.type=="Multiple-choice" %}selected{% endif %}>Multiple-Choice</option>
+              <option value="Time" {% if tracker.type=="Time" %}selected{% endif %}>Time</option>
+            </select>
+          </div>
+          <div class="mb-3 row">
+            <label class="col-6" for="settings">New options(For Multiple-choice):</label><input class="col-6" type="text" name="settings" value="{{tracker.settings}}" placeholder="separated by comma">
+          </div>
+          <div class="text-center"><button type="submit" name="submit">Update Tracker</button></div>
+        </form>
+      </div>
+    </div>
+  </body>
+
+</html>
